@@ -81,6 +81,7 @@ async def on_message(message):
         detected_pokemon = solve(content, 'pokemon.txt')
         if detected_pokemon:
             await message.channel.send(f'A wild {detected_pokemon} appeared!')
+            await asyncio.sleep(30)  # Add a 30-second delay after a Pokémon appears
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -97,9 +98,3 @@ async def stop(ctx):
     print('Stopped Spammer! ✅:')
 
 client.run(user_token)
-
-
-
-
-              
-client.run(f"{user_token}")
