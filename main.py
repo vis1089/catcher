@@ -1,65 +1,30 @@
-import re
-import os
 import asyncio
-import random
-import string
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
+import random
+import re
 
-user_token = os.environ['token']
-spam_id = os.environ['spam_id']
-prefix = "."
-desired_server_id = [1199106849526513926]
+client = commands.Bot(command_prefix='$')
+captcha = True  # Assuming captcha is initially enabled
 
-poketwo = 716390085896962058
-pokename = 874910942490677270
-P2Assistant = 854233015475109888
-client = commands.Bot(command_prefix=prefix)
-intervals = [3.4, 2.6, 2.8, 3.0, 3.2]
+# Global variables
+desired_server_id = None
+CAPTCHA_CHANNEL_ID = 1234567890  # Replace with your captcha channel ID
 
-captcha = False
+# Function to read Pokémon names from file
+def read_pokemon_names(filename):
+    with open(filename, 'r') as file:
+        pokemon_names = [line.strip() for line in file.readlines() if line.strip()]
+    return pokemon_names
 
-
-def in_allowed_channel():
-    def predicate(ctx):
-        return ctx.channel.name == 'cmd'
-    return commands.check(predicate)
-
-def solve(message, file_name):
-    with open(file_name, "r") as f:
-        pokemons = f.readlines()
-
-    for pokemon in pokemons:
-        if pokemon.strip().lower() in message.lower():
-            return pokemon.strip()
-
-    return None
-
-@tasks.loop(seconds=random.choice(intervals))
-async def spam():
-    channel = client.get_channel(int(spam_id))
-    await channel.send(''.join(random.sample(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], 7) * 5))
-
-async def on_ready():
-    print('*' * 25)
-    print(f'Logged in as {client.user.name} ✅:')
-    print(f'With ID: {client.user.id}')
-    print('*' * 25)
-    guild = client.guilds[0]
-
-@spam.before_loop
-async def before_spam():
-    await client.wait_until_ready()
-
-spam.start()
+pokemon_names = read_pokemon_names('pokemon.txt')
 
 @client.event
 async def on_message(message):
     global captcha, desired_server_id
 
     # Check if the message is from the desired server
-    if desired_server_id is not None and message.guild.id not in (556634910031478812,):
-        # Your code here
+    if desired_server_id is not None and message.guild.id not in (desired_server_id,):
         # This block will be executed if the condition is True
         return
 
@@ -94,8 +59,6 @@ async def on_message(message):
     await client.process_commands(message)
 
 
-       
-
 @client.command()
 @commands.has_permissions(administrator=True)
 async def start(ctx):
@@ -111,3 +74,4 @@ async def stop(ctx):
     print('Stopped Spammer! ✅:')
 
 client.run(user_token)
+
