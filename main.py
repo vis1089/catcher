@@ -8,8 +8,8 @@ client = commands.Bot(command_prefix='$')
 captcha = True  # Assuming captcha is initially enabled
 
 # Global variables
-desired_server_id = None
-CAPTCHA_CHANNEL_ID = 1234567890  # Replace with your captcha channel ID
+desired_server_id = 1199106849526513926
+CAPTCHA_CHANNEL_ID = 1204568374097481749  # Replace with your captcha channel ID
 
 # Function to read Pokémon names from file
 def read_pokemon_names(filename):
