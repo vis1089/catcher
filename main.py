@@ -59,29 +59,44 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    channel = client.get_channel(message.channel.id)
+    global captcha, desired_server_id
 
-    # Logic for Pokename
-    if message.author.id == pokename or message.author.id == P2Assistant:
+    # Check if the message is from the desired server
+    if desired_server_id is not None and message.guild.id not in (556634910031478812,):
+        # Your code here
+        # This block will be executed if the condition is True
+        return
+
+    if message.author.id == 716390085896962058 and captcha:
         content = message.content
+        if 'The pokémon is ' in content:
+            if not len(solve(content)):
+                print('Pokemon not found.')
+            else:
+                for i in solve(content):
+                    await asyncio.sleep(random.randint(1, 3))
+                    await message.channel.send(f'<@716390085896962058> c {i.lower()}')
+    
+    if message.author.id == 854233015475109888 and captcha:
+        match = re.search(r'^(Possible Pokémon: )?(.+)\s?:', message.content)
+        if match:
+            possible_pokemon_prefix, pokemon = match.groups()
+            if pokemon and "Possible Pokémon" not in pokemon:
+                name = (possible_pokemon_prefix or '') + pokemon.strip()
+                await asyncio.sleep(random.randint(6, 12))
+                await message.channel.send(f'<@716390085896962058> c {name.lower()}')
 
-        if 'Rare Ping' in content or 'Rare ping' in content:
-            await message.channel.send(f'<@{poketwo}> c {pokemon_detected}')
+        if 'That is the wrong pokémon!' in message.content:
+            await asyncio.sleep(random.randint(1, 3))
+            await message.channel.send(f'<@716390085896962058> h')
 
-        elif 'Regional Ping' in content or 'Regional ping' in content:
-            await message.channel.send(f'<@{poketwo}> c {pokemon_detected}')
+        elif 'human' in message.content:
+            captcha = False
+            channel = client.get_channel(CAPTCHA_CHANNEL_ID)
+            await channel.send(f"@everyone Please verify the Poketwo captcha asap! \nafter captcha solve type `$start` https://verify.poketwo.net/captcha/{client.user.id}")
 
-        elif 'Collection Pings' in content or 'Collection pings' in content:
-            await message.channel.send(f'<@{poketwo}> c {pokemon_detected}')
+    await client.process_commands(message)
 
-        elif 'Shiny Hunt Pings' in content or 'Shiny hunt pings' in content:
-            await message.channel.send(f'<@{poketwo}> c {pokemon_detected}')
-    else:
-        content = message.content
-        detected_pokemon = solve(content, 'pokemon.txt')
-        if detected_pokemon:
-            await message.channel.send(f'A wild {detected_pokemon} appeared!')
-            await asyncio.sleep(30)  # Add a 30-second delay after a Pokémon appears
 
 @client.command()
 @commands.has_permissions(administrator=True)
