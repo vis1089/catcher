@@ -54,13 +54,6 @@ async def before_spam():
 spam.start()
 
 @client.event
-async def on_ready():
-    print('*' * 25)
-    print(f'Logged in as {client.user.name} ✅:')
-    print(f'With ID: {client.user.id}')
-    print('*' * 25)
-
-@client.event
 async def on_message(message):
     global captcha, desired_server_id
 
@@ -73,12 +66,12 @@ async def on_message(message):
     if message.author.id == 716390085896962058 and captcha:
         content = message.content
         if 'The pokémon is ' in content:
-            pokemon = solve(content, "pokemon.txt")
-            if pokemon is None:
+            if not len(solve(content)):
                 print('Pokemon not found.')
             else:
-                await asyncio.sleep(random.randint(1, 3))
-                await message.channel.send(f'<@716390085896962058> c {pokemon.lower()}')
+                for i in solve(content):
+                    await asyncio.sleep(random.randint(1, 3))
+                    await message.channel.send(f'<@716390085896962058> c {i.lower()}')
     
     if message.author.id == 854233015475109888 and captcha:
         match = re.search(r'^(Possible Pokémon: )?(.+)\s?:', message.content)
