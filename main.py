@@ -11,7 +11,7 @@ captcha = True  # Assuming captcha is initially enabled
 desired_server_id = 1199106849526513926
 CAPTCHA_CHANNEL_ID = 1204568374097481749  # Replace with your captcha channel ID
 
-spam_id = os.environ['spam_id']
+
 
 # Function to read Pokémon names from file
 def read_pokemon_names(filename):
