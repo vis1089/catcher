@@ -32,6 +32,27 @@ def solve(message, file_name):
         return None
     return solution
 
+@tasks.loop(seconds=random.choice(intervals))
+async def spam():
+    channel = client.get_channel(int(spam_id))
+    await channel.send(''.join(random.sample(['1','2','3','4','5','6','7','8','9','0'],7)*5))
+
+async def on_ready():
+    print(f'Logged into account: {client.user.name}')
+    guild = client.guilds[0]
+
+@spam.before_loop
+async def before_spam():
+    await client.wait_until_ready()
+
+spam.start()
+
+@client.event
+async def on_ready():
+    print(f'*'*25)
+    print(f'Logged in as {client.user.name} ✅:')
+    print(f'With ID: {client.user.id}')
+    print(f'*'*25)
 
 @client.event
 async def on_message(message):
