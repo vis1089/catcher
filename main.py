@@ -17,6 +17,9 @@ P2Assistant = 854233015475109888
 client = commands.Bot(command_prefix=prefix)
 intervals = [3.4, 2.6, 2.8, 3.0, 3.2]
 
+captcha = True  # Assuming it starts as True
+
+
 def in_allowed_channel():
     def predicate(ctx):
         return ctx.channel.name == 'cmd'
