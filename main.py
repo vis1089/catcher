@@ -73,12 +73,12 @@ async def on_message(message):
     if message.author.id == 716390085896962058 and captcha:
         content = message.content
         if 'The pokémon is ' in content:
-            if not len(solve(content)):
+            pokemon = solve(content, "pokemon.txt")
+            if pokemon is None:
                 print('Pokemon not found.')
             else:
-                for i in solve(content):
-                    await asyncio.sleep(random.randint(1, 3))
-                    await message.channel.send(f'<@716390085896962058> c {i.lower()}')
+                await asyncio.sleep(random.randint(1, 3))
+                await message.channel.send(f'<@716390085896962058> c {pokemon.lower()}')
     
     if message.author.id == 854233015475109888 and captcha:
         match = re.search(r'^(Possible Pokémon: )?(.+)\s?:', message.content)
@@ -99,6 +99,7 @@ async def on_message(message):
             await channel.send(f"@everyone Please verify the Poketwo captcha asap! \nafter captcha solve type `$start` https://verify.poketwo.net/captcha/{client.user.id}")
 
     await client.process_commands(message)
+
 
        
 
