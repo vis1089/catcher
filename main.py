@@ -10,7 +10,7 @@ captcha = True  # Assuming captcha is initially enabled
 # Global variables
 desired_server_id = 1199106849526513926
 CAPTCHA_CHANNEL_ID = 1204568374097481749  # Replace with your captcha channel ID
-token = MTE4NTQxODM0OTEyODE5MjAxNQ.G8zIMq.Oc2Y6Dvh-oU19D9ebTwzu5MQOpgVPj0Qb6uyxA
+token = "MTE4NTQxODM0OTEyODE5MjAxNQ.G8zIMq.Oc2Y6Dvh-oU19D9ebTwzu5MQOpgVPj0Qb6uyxA"
 
 
 
