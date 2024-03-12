@@ -75,5 +75,5 @@ async def stop(ctx):
     await ctx.send('Stopped Spammer!')
     print('Stopped Spammer! ✅:')
 
-client.run(f"{user_token}")
+client.run(user_token)
 
