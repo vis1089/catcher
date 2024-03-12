@@ -8,6 +8,7 @@ desired_server_id = [1199106849526513926]
 
 poketwo = 716390085896962058
 pokename = 874910942490677270
+P2Assistant = 854233015475109888
 client = commands.Bot(command_prefix= prefix )
 intervals = [3.4, 2.6, 2.8, 3.0, 3.2]
 
