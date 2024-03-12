@@ -10,7 +10,7 @@ captcha = True  # Assuming captcha is initially enabled
 # Global variables
 desired_server_id = 1199106849526513926
 CAPTCHA_CHANNEL_ID = 1204568374097481749  # Replace with your captcha channel ID
-user_token = os.environ['token']
+
 spam_id = os.environ['spam_id']
 
 # Function to read Pokémon names from file
